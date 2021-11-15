@@ -1,13 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
-import bg from '../assets/images/scene_banner.png';
+import attractionsBanner from '../assets/images/attractions_banner.png';
+import restaurantsBanner from '../assets/images/restaurants_banner.png';
+import accommodationsBanner from '../assets/images/accommodations_banner.png';
+import activitiesBanner from '../assets/images/activities_banner.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faUtensils, faHome, faPalette, faSearch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
-
-const Container = styled.div`
+const Container = styled.div<{bg: string}>`
     height: 400px;
-    background-image: url(${bg});
+    background-image: url(${props=>props.bg});
     background-size: cover;
 `;
 const Content = styled.div`
@@ -24,14 +26,14 @@ const Nav = styled.div`
     display: flex;
     margin: 14px 0 16px 0;
 `;
-const NavBtn = styled.div`
+const NavBtn = styled.div<{active: boolean}>`
     display: flex;
     align-items: center;
     padding: 14px 24px;
     margin-right: 12px;
-    background: #ffffff;
+    background: ${props=>props.active?'#B72323':'#ffffff'};
     border-radius: 24px;
-    color: #959595;
+    color: ${props=>props.active?'#FFFFFF':'#959595'};
     cursor: pointer;
 `;
 const NavBtnText = styled.div`
@@ -86,25 +88,50 @@ const SearchBtnText = styled.span`
     margin-left: 8px;
 `;
 
+type navType = 'attractions' | 'restaurants' | 'accommodations' | 'activities';
+
 const Banner= () => {
+    const [nav, setNav] = useState<navType>('attractions')
+
+    const getBanner = () => {
+        if (nav === 'attractions') 
+            return attractionsBanner;
+        else if (nav === 'restaurants') 
+            return restaurantsBanner;
+        else if (nav === 'accommodations')
+            return accommodationsBanner;
+        else
+            return activitiesBanner;
+    }
+    const getTitle = () => {
+        if (nav === 'attractions') 
+            return '景點';
+        else if (nav === 'restaurants') 
+            return '餐飲';
+        else if (nav === 'accommodations')
+            return '旅宿';
+        else
+            return '活動';
+    }
+
     return (
-        <Container>
+        <Container bg={getBanner()}>
             <Content>
-                <Title>景點</Title>
+                <Title>{getTitle()}</Title>
                 <Nav>
-                    <NavBtn>
+                    <NavBtn active={nav==='attractions'} onClick={()=>setNav('attractions')}>
                         <NavBtnText>景點</NavBtnText>
                         <FontAwesomeIcon icon={faCamera} />
                     </NavBtn>
-                    <NavBtn>
+                    <NavBtn active={nav==='restaurants'} onClick={()=>setNav('restaurants')}>
                         <NavBtnText>餐飲</NavBtnText>
                         <FontAwesomeIcon icon={faUtensils} />
                     </NavBtn>
-                    <NavBtn>
+                    <NavBtn active={nav==='accommodations'} onClick={()=>setNav('accommodations')}>
                         <NavBtnText>旅宿</NavBtnText>
                         <FontAwesomeIcon icon={faHome} />
                     </NavBtn>
-                    <NavBtn>
+                    <NavBtn active={nav==='activities'} onClick={()=>setNav('activities')}>
                         <NavBtnText>活動</NavBtnText>
                         <FontAwesomeIcon icon={faPalette} />
                     </NavBtn>
