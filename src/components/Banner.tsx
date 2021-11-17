@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
 import attractionsBanner from '../assets/images/attractions_banner.png';
 import restaurantsBanner from '../assets/images/restaurants_banner.png';
@@ -6,6 +6,7 @@ import accommodationsBanner from '../assets/images/accommodations_banner.png';
 import activitiesBanner from '../assets/images/activities_banner.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faUtensils, faHome, faPalette, faSearch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { scenicSpotGet, restaurantGet, hotelGet, activityGet} from '../apis/tdxApi';
 
 const Container = styled.div<{bg: string}>`
     height: 400px;
@@ -90,8 +91,30 @@ const SearchBtnText = styled.span`
 
 type navType = 'attractions' | 'restaurants' | 'accommodations' | 'activities';
 
-const Banner= () => {
-    const [nav, setNav] = useState<navType>('attractions')
+const Banner = () => {
+    const [nav, setNav] = useState<navType>('attractions');
+    
+
+    useEffect(() => {
+        let apiObject;
+        switch (nav) {
+            case 'attractions':
+                apiObject = scenicSpotGet();
+                break;
+            case 'restaurants':
+                apiObject = restaurantGet();
+                break;
+            case 'accommodations':
+                apiObject = hotelGet();
+                break;
+            case 'activities':
+                apiObject = activityGet();
+                break;
+            default:
+                break;
+        }
+        if (apiObject) apiObject.then(res=>console.log(res));
+    },[nav])
 
     const getBanner = () => {
         if (nav === 'attractions') 
