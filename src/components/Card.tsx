@@ -3,22 +3,23 @@ import styled from 'styled-components';
 import Tag from './Tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import mockbg from '../assets/images/4063064148_712384b718_z.jpg';
+import NoneImage from '../assets/images/NoneImage.png';
 
 
 const Container = styled.div`
-    flex: 1 0 calc((100% - 80px) / 4);
+    flex: 0 0 calc((100% - 80px) / 4);
     background: #FFFFFF;
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 12px;
     margin: 0 20px 32px 0;
     overflow: hidden;
 `;
-const CardImg = styled.div`
+const CardImg = styled.div<{img: string}>`
     height: 190px;
     background: thistle;
-    background-image: url(${mockbg});
+    background-image: url(${props=>props.img});
     background-size: cover;
+    background-position: center;
 `;
 const CardContent = styled.div`
     padding: 12px 16px 20px 16px;
@@ -47,11 +48,12 @@ interface props {
     title: string,
     location: string,
     tags: string[],
+    img: string,
 }
 const Card = (props: props) => {
     return (
         <Container>
-            <CardImg></CardImg>
+            <CardImg img={props.img?props.img:NoneImage}/>
             <CardContent>
                 <CardTitle>{props.title}</CardTitle>
                 <CardLocation>

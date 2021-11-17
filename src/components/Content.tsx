@@ -19,27 +19,25 @@ const Title = styled.div`
 const ResultContent = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 `;
 
-const mockData = {
-    title: '大稻埕碼頭_大稻埕碼頭貨櫃市集',
-    location: '臺北市',
-    tags: ['遊憩類'],
-};
+interface Props {
+    result: any,
+}
 
-const Content = () => {
+const Content = ({ result }: Props) => {
 
     return (
         <Container>
             <Title>搜尋結果</Title>
             <ResultContent>
-                {Array(20).fill(0).map((id)=>
+                {result && result.map((item:any)=>
                     <Card 
-                        key={id}
-                        title={mockData.title}
-                        location={mockData.location}
-                        tags={mockData.tags}
+                        key={item.ID}
+                        title={item.Name}
+                        location={item.Address}
+                        tags={['遊憩類']}
+                        img={item.Picture.PictureUrl1}
                     />
                 )}
             </ResultContent>
