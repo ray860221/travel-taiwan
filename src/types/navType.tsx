@@ -1,0 +1,1 @@
+export type navType = 'attractions' | 'restaurants' | 'accommodations' | 'activities';
